@@ -35,6 +35,18 @@ class MainActivity : AppCompatActivity() {
         //3. an imageview to show the picture the user has taken
         //4. a button to save and send the post to our parse server
 
+        findViewById<Button>(R.id.btnLogout).setOnClickListener {
+            //Logout user
+            ParseUser.logOut()
+            val currentUser = ParseUser.getCurrentUser()
+            if(currentUser === null){
+                goToLoginActivity()
+                Toast.makeText(this, "Successfully logged out!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Error logging out!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         findViewById<Button>(R.id.btnSubmit).setOnClickListener {
             //send post to server without an image
             //get the description that they have inputted
@@ -155,6 +167,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun goToLoginActivity() {
+        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     //query for all posts in server
